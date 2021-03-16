@@ -51,7 +51,7 @@
     <div class="row mt-1 p-0">
         <div class="col-xl-8 col-lg-6">
              
-            <table class="table table-hover border mt-1" id="tblCustomer">
+            <table class="table table-hover border mt-1" >
                 <thead class="" style="background: #9370DB">
                 <tr>
                     <th scope="col">Customer ID</th>
@@ -62,36 +62,34 @@
                     <th scope="col">Gender</th>
                 </tr>
                 </thead>
-                <tbody class="" style="background: white">
+                <tbody class="" style="background: white" id="tblCustomer">
                 <tr>
                      
-                    <td>C001</td>
+                    <!-- <td>C001</td>
                     <td>Abc</td>
                     <td>Abc</td>
                     <td>Abc</td>
                     <td>Abc</td>
-                    <td>abc</td>
+                    <td>abc</td> -->
                 </tr>
                 <tr>
                      
-                    <td>C002</td>
+                    <!-- <td>C002</td>
                     <td>Abc</td>
                     <td>Abc</td>
                     <td>Abc</td>
                     <td>Abc</td>
-                    <td>abc</td>
+                    <td>abc</td> -->
                 </tr>
                 <tr>
-                    <td>C003</td>
+                    <!-- <td>C003</td>
                     <td>Abc</td>
                     <td>Abc</td>
                     <td>Abc</td>
                     <td>Abc</td>
-                    <td>abc</td>
+                    <td>abc</td> -->
                 </tr>
-                
-
-                </tbody>
+               </tbody>
             </table>
         </div>
         <div class="col-xl-4">
@@ -161,7 +159,7 @@
     <!-- <h1 class="mx-4">Item Form</h1> -->
     <div class="row mt-1 p-0">
         <div class="col-xl-8 col-lg-6">
-            <table class="table table-hover border mt-1" id="tblItem">
+            <table class="table table-hover border mt-1" >
                 <thead class="" style="background: #9370DB">
                 <tr>
                     <th scope="col">Item Code</th>
@@ -171,27 +169,27 @@
                     <th scope="col">Unit Price</th>
                 </tr>
                 </thead>
-                <tbody class="" style="background: white">
+                <tbody class="" style="background: white" id="tblItem">
                 <tr>
-                    <td>I001</td>
+                    <!-- <td>I001</td>
                     <td>abc</td>
                     <td>abc</td>
                     <td>200</td>
-                    <td>abc</td>
+                    <td>abc</td> -->
                 </tr>
                 <tr>
-                    <td>I002</td>
+                    <!-- <td>I002</td>
                     <td>abc</td>
                     <td>abc</td>
                     <td>100</td>
-                    <td>abc</td>
+                    <td>abc</td> -->
                 </tr>
                 <tr>
-                    <td>I003</td>
+                    <!-- <td>I003</td>
                     <td>abc</td>
                     <td>abc</td>
                     <td>300</td>
-                    <td>abc</td>
+                    <td>abc</td> -->
                 </tr>
                  
                 </tbody>
@@ -593,19 +591,49 @@
     });
 
     // for customers
+
     $('#btnCustomerAdd').click(function () {
-        $('#tblCustomer tbody').append('<tr>' +
-            '<td>' + $('#txtCustomerId').val() + '</td>' +
-            '<td>' + $('#txtCustomerName').val() + '</td>' +
-            '<td>' + $('#txtCustomerAddress').val() + '</td>' +
-            '<td>' + $('#txtCustomerContact').val() + '</td>' +
-            '<td>' + $('#dateofbirth').val() + '</td>' +
-            '<td>' + $('#cmbGender').val() + '</td>' +
-            '</tr>');
-        clear();
+    saveCustomer();
     });
 
-    function clear() {
+    function saveCustomer(){
+        $('#tblCustomer>tr').off('click');
+        $('#tblCustomer>tr').off('dblclick'); 
+
+        let customerID=$('#txtCustomerId').val();
+        let CustomerName=$('#txtCustomerName').val();
+        let customerAddress=$('#txtCustomerAddress').val();
+        let customerContact=$('#txtCustomerContact').val();
+        let cusdateofbirth=$('#dateofbirth').val();
+        let gender=$('#cmbGender').val();
+
+        let row = `<tr><td>${customerID}</td><td>${CustomerName}</td><td>${customerAddress}</td><td>${customerContact}</td><td>${cusdateofbirth}</td><td>${gender}</td></tr>`;
+         $('#tblCustomer').append(row);
+
+         clearcustomer();
+         $('#tblCustomer>tr').click(function () {
+             let id=$(this).children('td:eq(0)').text();
+             let name=$(this).children('td:eq(1)').text();
+             let address=$(this).children('td:eq(2)').text();
+             let contact=$(this).children('td:eq(3)').text();
+             let dob=$(this).children('td:eq(4)').text();
+             let cgender=$(this).children('td:eq(5)').text();
+
+             $("#txtCustomerId").val(id);
+            $("#txtCustomerName").val(name);
+            $("#txtCustomerAddress").val(address);
+            $("#txtCustomerContact").val(contact);
+            $("#dateofbirth").val(dob);
+            $("#cmbGender").val(cgender);
+           
+        });
+
+        $("#tblCustomer>tr").on('dblclick',function (){
+        $(this).remove();
+        });
+     }
+
+    function clearcustomer() {
         $('#txtCustomerId').val("");
         $('#txtCustomerName').val("");
         $('#txtCustomerAddress').val("");
@@ -614,47 +642,53 @@
         $('#cmbGender').val("");
     }
 
-    var customerTable= $('#tblCustomer tbody')[0];
-    for (let i = 0; i < customerTable.rows.length; i++) {
-        customerTable.rows[i].onclick = function () {
-            $('#txtCustomerId').val(this.cells[0].innerHTML);
-            $('#txtCustomerName').val(this.cells[1].innerHTML);
-            $('#txtCustomerAddress').val(this.cells[2].innerHTML);
-            $('#txtCustomerContact').val(this.cells[3].innerHTML);
-            $('#dateofbirth').val(this.cells[4].innerHTML);
-            $('#cmbGender').val(this.cells[5].innerHTML);
-        };
-    }
-
     // for items
+
     $('#btnItemAdd').click(function () {
-        $('#tblItem tbody').append('<tr>' +
-            '<td>' + $('#txtItemCode').val() + '</td>' +
-            '<td>' + $('#txtItemName').val() + '</td>' +
-            '<td>' + $('#txtDiscription').val() + '</td>' +
-            '<td>' + $('#txtQtyOnHand').val() + '</td>' +
-            '<td>' + $('#txtUnitePrice').val() + '</td>' +
-            '</tr>');
-        clear();
+    saveItem();
     });
 
-    function clear() {
+    function saveItem(){
+        $('#tblCustomer>tr').off('click');
+        $('#tblCustomer>tr').off('dblclick'); 
+
+        let itemCode=$('#txtItemCode').val();
+        let itemName=$('#txtItemName').val();
+        let discription=$('#txtDiscription').val();
+        let qtyOnhand=$('#txtQtyOnHand').val();
+        let unitprice=$('#txtUnitePrice').val();
+         
+
+        let row = `<tr><td>${itemCode}</td><td>${itemName}</td><td>${discription}</td><td>${qtyOnhand}</td><td>${unitprice}</td></tr>`;
+         $('#tblItem').append(row);
+
+         clearitem();
+         $('#tblItem>tr').click(function () {
+             let code=$(this).children('td:eq(0)').text();
+             let name=$(this).children('td:eq(1)').text();
+             let disc=$(this).children('td:eq(2)').text();
+             let qty=$(this).children('td:eq(3)').text();
+             let uprice=$(this).children('td:eq(4)').text();
+
+            $("#txtItemCode").val(code);
+            $("#txtItemName").val(name);
+            $("#txtDiscription").val(disc);
+            $("#txtQtyOnHand").val(qty);
+            $("#txtUnitePrice").val(uprice);
+                     
+        });
+
+        $("#tblItem>tr").on('dblclick',function (){
+        $(this).remove();
+        });
+     }
+
+     function clearitem() {
         $('#txtItemCode').val("");
         $('#txtItemName').val("");
         $('#txtDiscription').val("");
         $('#txtQtyOnHand').val("");
         $('#txtUnitePrice').val("");
-    }
-
-    var itemTable= $('#tblItem tbody')[0];
-    for (let i = 0; i < itemTable.rows.length; i++) {
-        itemTable.rows[i].onclick = function () {
-            $('#txtItemCode').val(this.cells[0].innerHTML);
-            $('#txtItemName').val(this.cells[1].innerHTML);
-            $('#txtDiscription').val(this.cells[2].innerHTML);
-            $('#txtQtyOnHand').val(this.cells[3].innerHTML);
-            $('#txtUnitePrice').val(this.cells[4].innerHTML);
-        };
     }
 
 </script>
